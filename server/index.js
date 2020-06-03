@@ -28,3 +28,4 @@ massive({
 app.listen(PORT, () => console.log(`oooooh can you hear me? (port ${PORT})`));
 
 app.post('/auth/register', authCtrl.register)
+app.post('/auth/login', authCtrl.login)

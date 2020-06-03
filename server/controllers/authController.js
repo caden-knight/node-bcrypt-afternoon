@@ -12,7 +12,7 @@ module.exports = {
 		const existingUser = result[0];
 
 		if (existingUser) {
-			return res.status(409).send('Username taken');
+			return status(409).send('Username taken');
 		}
 
 		//registering the user
@@ -26,5 +26,18 @@ module.exports = {
 			user: user.username
 		};
 		return res.status(201).send(req.session.user);
+	},
+	login: (req, res) => {
+		const { username, passwords } = req.body
+		const db = req.app.get('db')
+
+		const foundUser = await db.get_user([username])
+		const user = foundUser[0]
+
+		if(!user) {
+			return status(401).send('User not found. Please register as a new user before logging in')
+		}
+
+		const isAuthenticated = bcrypt.compareSync(password, user.hash)
 	}
 };
